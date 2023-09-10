@@ -1,0 +1,80 @@
+@import '../../styles.scss';
+
+.user-list {
+    color: $dark;
+    border-radius: 10px;
+    height: 320px;
+    background-color:$dark;
+}
+
+.user-list-online{
+background-color: $white;
+border:1px solid #7e87e9;
+    border-radius: 10%;
+        padding: 5%;
+        text-overflow: ellipsis;
+}
+
+.user-list-offline {
+background-color: $white;
+    border: 1px solid #7e87e9;
+    border-radius: 10%;
+    padding: 5%;
+    text-overflow: ellipsis;      
+}
+
+.user-list-title-online{
+    color: #7e87e9;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.user-list-title-offline {
+    color: #7e87e9;
+    font-weight: bold;
+    font-size: 0.8em;
+    text-align: center;
+    margin-bottom: 5%;
+}
+
+.status-badge.online::before {
+    content: '\2022';
+    color: green;
+    margin-right: 5px;
+}
+
+.status-badge.offline::before {
+    content: '\2022';
+    color: red;
+    margin-right: 5px;
+}
+
+li {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: $white;
+    border-radius: 10px;
+    color: $dark;
+    margin-bottom: 1%;
+    padding-left: 2%;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    color: antiquewhite;
+}
+
+.li-picture-user{
+border-radius: 50%;
+
+}
+.li-pseudo-user{
+text-align: center;
+
+
+}

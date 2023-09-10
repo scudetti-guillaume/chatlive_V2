@@ -1,0 +1,70 @@
+$dark: #2e2d2d;
+$white: #ece3e3e4;
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: $dark;
+}
+
+.toast-position {
+    position:fixed ;
+    width: fit-content;
+    top: 10%;
+    right: 0%;
+    margin: 0 auto;
+    z-index: 1000;
+}
+
+.toast-success {
+    background-color: #2bde14;
+    color: #fff;
+    border-radius: 8px;
+    max-width: 400px;
+    min-width: 200px;
+    height: auto;
+    padding: 10px;
+}
+
+.toast-title-success {
+    font-weight: bold;
+}
+
+.toast-message-success {
+    font-weight: bold;
+    text-align: center;
+}
+
+.toast-error {
+    background-color: #964747;
+    color: #fff;
+    border-radius: 8px;
+    max-width: 400px;
+    min-width: 200px;
+    height: auto;
+    padding: 10px;
+}
+
+.toast-message-error {
+    font-weight: bold;
+    text-align: center;
+}
+
+.toast-progress-bar-error{
+    position: relative;
+    width: 100%;
+    border: solid 2px #1428de;
+    color: #22309f;
+}
+
+.toast-progress{
+height: 10px;
+background-color: #495fda;
+border: solid 2px #0c40a0;
+border-radius: 2%;
+}

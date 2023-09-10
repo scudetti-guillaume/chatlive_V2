@@ -1,0 +1,23 @@
+<div class="login">
+<h2 class="login-title">Login</h2>
+<form class="login-form" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <input matInput placeholder="Pseudo" [(ngModel)]="pseudo" name="pseudo" required>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="email" name="email" type="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}">
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Mot de passe" [(ngModel)]="password" name="password" type="password" required>
+    </mat-form-field>
+    <div class="button-container">
+    <button mat-raised-button color="primary" type="submit">Login</button>
+    </div>
+</form>
+<div class="login-noaccount" (click)="openRegisterPage()" #registerLink>
+    Vous n'avez pas encore de Compte
+</div>
+
+</div>

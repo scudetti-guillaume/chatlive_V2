@@ -1,0 +1,24 @@
+<div class="user-list">
+    <div class="user-list-online">
+        <h4 class="user-list-title-online">En ligne</h4>
+        <ul class="user-list-ul-online">
+            <li *ngFor="let user of userOnline">
+                <span class="status-badge" [ngClass]="{ 'online': !user.isOnline, 'offline': user.isOnline }"></span>
+                <img class="li-picture-user" [src]="user.pictureUser" alt="Photo de profil" width="20px" height="20px" />
+               {{ user.pseudo }}
+            </li>
+        </ul>
+        <p *ngIf="userOnline.length === 0">Personne n'est connecté</p>
+    </div>
+    <div class="user-list-offline">
+        <h4 class="user-list-title-offline">Hors ligne</h4>
+        <ul class="user-list-ul-offline">
+            <li *ngFor="let user of userOffline">
+                <span class="status-badge" [ngClass]="{ 'offline': !user.isOnline }"></span>
+                <img class="picture-img" [src]="user.pictureUser" alt="Photo de profil" width="20px" height="20px" />
+                {{ user.pseudo }}
+            </li>
+        </ul>
+        <p *ngIf="userOffline.length === 0">Personne n'est hors ligne.</p>
+    </div>
+</div>
