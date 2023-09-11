@@ -15,6 +15,11 @@ export class AuthService {
     return !!token;
   }
 
+  isLogged(): boolean {
+    const id = localStorage.getItem('id');
+    return !!id;
+  }
+
   login() {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '400px',

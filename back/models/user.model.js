@@ -23,11 +23,12 @@ const userSchema = new mongoose.Schema({
         default: Date.now,
     },
     login: {
-        type: Boolean,
-        default: false,
+        type: String,
+        default: '',
     },
-    pictureUser : {
-      type: String,
+    pictureUser: {
+        type: String,
+        default: 'https://www.lesiteduscudo.com/chatsocV2/pictures/default/default-user.png',
     }
 });
 

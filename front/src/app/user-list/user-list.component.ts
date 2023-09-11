@@ -24,9 +24,9 @@ export class UserListComponent implements OnInit {
     this.socket.on('All-user', (data: any[string]) => {
       this.userOffline = [];
       this.userOnline = [];
-      data.userArray.forEach((user: { login: boolean; }) => {
+      data.userArray.forEach((user: { login: string; }) => {
         this.users = data.userArray;
-        if (user.login === true) {
+        if (user.login != '') {
          console.log(user);
          
           this.userOnline.push(user);

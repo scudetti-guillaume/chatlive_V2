@@ -11,7 +11,7 @@ import { RegisterComponent } from '../register/register.component';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  id: string = '';
+  // id: string = '';
   pseudo: string = '';
   email: string = '';
   password: string = '';
@@ -30,9 +30,11 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    const userId = localStorage.getItem('id');
+  console.log('lalalalalalalalalalalala');
+  
+    // const userId = localStorage.getItem('id');
     const loginData = {
-      id: userId,
+      // id: userId,
       pseudo: this.pseudo,
       email: this.email,
       password: this.password,

@@ -38,7 +38,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   newMessage: string = '';
   displayStyle = "none";
   displayStyleUser = "none";
-  userProfileData: any = {};
+  userProfileData: any = { userId: this.userId, pseudo: this.pseudo, picture: this.pictureUser };
   selectedFile: File | null = null;
   selectedFile2: File | null = null;
   users: any = [];
@@ -54,6 +54,8 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 
   openPopup(id: string) {
+  console.log(this.userProfileData);
+  
     this.userProfileData = { userId: id, pseudo: this.pseudo, picture: this.pictureUser };
     this.displayStyle = "block";
   }
@@ -127,9 +129,6 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   updateProfile() {
     if (this.selectedFile && this.userId) {
-      console.log('alalalalalalala');
-      console.log(this.selectedFile);
-      console.log(this.userId);
      const file = this.selectedFile.name
       const type = this.selectedFile.type.split('/')[1]
   
@@ -141,6 +140,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
             // this.fileInput.nativeElement.value = '';
             this.selectedFileName = undefined;
             this.updateProfilPicture();
+            this.socket.emit('get-all-user');
             this.socket.emit('get-all-messages');
           } else {
             console.error('Erreur lors du téléchargement du fichier.');
@@ -154,10 +154,11 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   updateProfilPicture() {
+    this.socket.emit('get-all-user');
     this.socket.emit('get-user', this.userId,);
     this.socket.on('user', (user: any) => {
       localStorage.setItem('picture', user.user.pictureUser);
-      this.pictureUser = localStorage.getItem('picture');
+      // this.pictureUser = localStorage.getItem('picture');
     })
   }
 
@@ -218,6 +219,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
     this.socket.emit('get-all-message');
+    this.socket.emit('get-all-user');
     this.socket.on('chat-message-resend-all', (messageAll: any) => {
       this.messages = [];
       messageAll.messagesArray.forEach((message: {
@@ -246,21 +248,14 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 
 dataURItoBlob(dataURI: string): Blob {
-  // Divisez la chaîne base64 en deux parties : le type de média et les données réelles
   const [dataParts, base64Data] = dataURI.split(',');
-
-  // Extraire le type de média (ex: "image/jpeg")
   const mediaType = dataParts.match(/:(.*?);/)[1];
-
-  // Convertir la chaîne base64 en tableau d'octets
   const byteCharacters = atob(base64Data);
   const byteNumbers = new Array(byteCharacters.length);
 
   for (let i = 0; i < byteCharacters.length; i++) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
-
-  // Créez un tableau d'octets sous forme d'objet Blob
   return new Blob([new Uint8Array(byteNumbers)], { type: mediaType });
 }
 
@@ -273,7 +268,7 @@ dataURItoBlob(dataURI: string): Blob {
       userId: this.userId || '',
       date: this.datePipe.transform(new Date(), 'dd MMM yyyy HH:mm:ss') || '',
       pictureUser: this.pictureUser || '',
-      pictureMessage: '', // Initialisez à null pour le moment
+      pictureMessage: '', 
       pictureName: '' || null,
       formatImage: ''
     };
@@ -283,14 +278,13 @@ dataURItoBlob(dataURI: string): Blob {
     }
 
     if (this.newMessage.trim() !== '' && this.selectedImage2 === null) {
-      // Le message texte n'est pas vide
+      this.socket.emit('get-all-user')
       this.socket.emit('chat-message-send', messageData);
       // this.socket.emit('get-all-message');
     }
 
     if (this.selectedFile2 != null) {
       if (this.selectedFile2 instanceof File) {
-        // Une image a été sélectionnée
         const reader = new FileReader();
         reader.onload = (event) => {
           if (event.target) {
@@ -301,7 +295,12 @@ dataURItoBlob(dataURI: string): Blob {
             const sanitizedFileName = fileName.replace(/\s/g, '').toLowerCase();
             this.selectedFileName2 = sanitizedFileName;
             messageData.pictureName = this.selectedFileName2;
-            this.socket.emit('chat-message-send', messageData);
+            this.socket.emit('get-all-user')
+            this.socket.emit('chat-message-send', messageData, (status : any) => {
+            if (status === 'failure') {
+              this.toaster.showError('', "Échec de l'envoi du message. Veuillez réessayer.");
+            }
+            });
 
             // Réinitialisez les valeurs après l'envoi
             this.newMessage = '';
@@ -314,24 +313,16 @@ dataURItoBlob(dataURI: string): Blob {
       }
     }
 
-    // Réinitialisez les valeurs après l'envoi
     this.newMessage = '';
     this.selectedFileName2 = null;
     this.selectedImage2 = null;
     setTimeout(() => { this.selectedFile2 = null }, 1000);
-  ; // Réinitialisation de this.selectedFile2
   }
-
 
   resetFile() {
     this.selectedFile2 = null
   }
 
-
-
-
-
-
   }
 
 
@@ -339,84 +330,4 @@ dataURItoBlob(dataURI: string): Blob {
 
 
 
- // sendMessage() {
-  //   if (this.newMessage.trim() === '' && !this.selectedImage2) {
-  //   return
-    
-  //   }
-  //     if (this.newMessage.trim() != '' && !this.selectedImage2) {
-  //     const messageData: ChatMessage = {
-  //       text: this.newMessage,
-  //       pseudo: this.pseudo || '',
-  //       userId: this.userId || '',
-  //       date: this.datePipe.transform(new Date(), 'dd MMM yyyy HH:mm:ss') || '',
-  //       pictureUser: this.pictureUser || '',
-  //       pictureMessage: '',
-  //       pictureName: '',
-  //       data: undefined,
-  //       formatImage: undefined
-  //     };
-  //     if (messageData.userId === '' && messageData.pseudo === '') {
-  //       this.toaster.showError('', 'Veuillez vous identifier pour envoyer un message');
-  //     }
-  //     else {
-
-  //       this.socket.emit('chat-message-send', messageData);
-  //       // this.socket.emit('get-all-message')
-  //       this.newMessage = '';
-  //     }
-  //     } else {
-   
  
-
-  //   const messageData: ChatMessage = {
-  //     text: this.newMessage,
-  //     pseudo: this.pseudo || '',
-  //     userId: this.userId || '',
-  //     date: this.datePipe.transform(new Date(), 'dd MMM yyyy HH:mm:ss') || '',
-  //     pictureUser: this.pictureUser || '',
-  //     pictureMessage: this.pictureMessage,
-  //     pictureName: null,
-  //     data: undefined,
-  //     formatImage: undefined
-  //   };
-
-  //   if (messageData.userId === '' && messageData.pseudo === '') {
-  //     this.toaster.showError('', 'Veuillez vous identifier pour envoyer un message');
-  //   } else {
-     
-  //     if (typeof this.selectedImage2 === 'string') {
-  //       // console.log(this.selectedImage);
-      
-  //       messageData.pictureMessage = this.selectedImage2;
-  //       messageData.pictureName = this.selectedFileName2 || null;
-  //       this.sendMessageToServer(messageData);
-  //     } else if (this.selectedImage instanceof File) {
-  //       // Une image a été sélectionnée
-  //       const reader = new FileReader();
-  //       reader.onload = (event) => {
-  //         if (event.target) {
-            
-  //           const imageBase64 = event.target.result as ArrayBuffer;
-  //           console.log(imageBase64);
-            
-  //           messageData.pictureMessage = imageBase64;
-  //           messageData.pictureName = this.selectedFileName2 || null;
-  //           this.sendMessageToServer(messageData);
-  //         }
-  //       };
-  //       reader.readAsDataURL(this.selectedImage);
-  //     }
-  //     }
-  //   }
-  // }
-
-  // sendMessageToServer(messageData: ChatMessage) {
-
-  //   this.newMessage = '';
-  //   this.selectedFileName2 = null;
-  //   this.selectedImage2 = null;
-    
-  //   this.socket.emit('chat-message-send', messageData);
-  //   // this.socket.emit('get-all-message')
-  // }

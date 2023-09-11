@@ -6,13 +6,14 @@ exports.registerMessage = async (data, res) => {
     console.log(data);
     const { text, pseudo, userId, date, pictureUser, pictureName } = data;
     if (pseudo === null || userId === null) return res({ success: false, error: "erreur veuillez réessayer" });
+    const uniqueFileName = `${Date.now()}_${pictureName}`;
     const messageNew = new MessageModel({
       text: text,
       pseudo: pseudo,
       userId: userId,
       date: date,
       pictureUser: pictureUser,
-      pictureMessage: data.pictureName != null ? `${process.env.BASE_IMAGE_MESSAGE}/${data.pictureName}`
+      pictureMessage: pictureName != null ? `${process.env.BASE_IMAGE_MESSAGE}/${uniqueFileName}`
         : ``,
     });
 

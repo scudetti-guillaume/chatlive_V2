@@ -1,5 +1,5 @@
-@import '../../styles.scss' ;
-  
+@import '../../styles.scss';
+
 .chat-container {
   display: flex;
   flex-direction: column;
@@ -21,11 +21,20 @@
 }
 
 .outgoing {
-  background-color: #007bff;
+  background-color: $blue;
   color: #fff;
   padding: 10px;
   margin: 2px;
   border-radius: 5px;
+}
+
+.input-container-main {
+  display: flex;
+  height: 50px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1%;
 }
 
 .input-container {
@@ -35,33 +44,68 @@
   justify-content: space-between;
   align-items: center;
   margin-left: 1%;
-  width: 100%;
-  padding: 10px;
+  width: 95%;
+  // padding: 10px;
   padding-top: 0;
-  height: 4vh;
+  height: auto;
 }
-.input-container-main{
+
+.input-text-message{
+margin: 0;
+
+}
+
+.inputfile-chat {
+  //  margin-top: 1%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 42px;
+}
+
+.inputfile {
+  display: flex;
+  flex-direction: row;
+  width: auto;
+}
+
+
+.btn-send-wrapper{
 display: flex;
-flex-direction: row;
 align-items: center;
-justify-content: first baseline;
+justify-content: center;
+width: 100%;
 margin-top: 1%;
-
-
-
 }
 
+
+.btn-send {
+  background-color:$blue;
+  color: #fff;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 80px;
+ margin: 0 auto;
+  &:hover {
+    background: #1c8f39
+  }
+}
 
 input[type="text"] {
   width: 100%;
-  padding: 10px;
+  height: 38px;
+  // padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-bottom: 2%;
+  // margin-bottom: 2%;
 }
 
 button {
-  background-color: #007bff;
+  background-color: $blue;
   color: #fff;
   padding: 5px 10px;
   border: none;
@@ -69,13 +113,13 @@ button {
   cursor: pointer;
 }
 
-.user-info-wrapper{
-display: flex;
-flex-direction: row;
-justify-content: space-evenly;
-align-items: center;
-width: fit-content;
-margin-bottom: 1%;
+.user-info-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: fit-content;
+  margin-bottom: 1%;
 }
 
 .pseudo {
@@ -86,21 +130,27 @@ margin-bottom: 1%;
   font-weight: bold;
   margin-bottom: 0.5%;
   margin-left: 10%;
+  &:hover {
+    cursor: pointer;
+    background-color: $blue;
+    color: #fff;
+    border: solid 1px $blue;
+  }
 }
 
-.pseudo:hover {
-  cursor: pointer;
-  background-color: #007bff;
-  color: #fff;
-  border: solid 1px #007bff;
-}
+// .pseudo:hover {
+//   cursor: pointer;
+//   background-color: #007bff;
+//   color: #fff;
+//   border: solid 1px #007bff;
+// }
 
 .picture-img {
   border-radius: 50%;
   margin-left: 10%;
 }
 
-.message{
+.message {
   background-color: #f0f0f0;
   border-radius: 5px;
   color: #000000;
@@ -123,15 +173,15 @@ margin-bottom: 1%;
 }
 
 .image {
-display: flex;
+  display: flex;
   background-color: #f0f0f0;
   border-radius: 5px;
   color: #000000;
   font-size: 1rem;
   padding: 1%;
   margin-bottom: 1px;
-  width:75px ;
-  height:75px;
+  width: 75px;
+  height: 75px;
 }
 
 .date {
@@ -152,27 +202,41 @@ display: flex;
 }
 
 .modal-title {
-display: flex;
-align-items: center;
-justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: bold;
   font-style: italic;
   font-size: 1.8rem;
   padding: 2%;
-  border-bottom: solid 1px rgb(16, 110, 232);;
+  // border-bottom: solid 1px rgb(16, 110, 232);;
   margin: 0;
   // text-align: center;
 }
 
+.picture-img-modal {
+  border-radius: 50%;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: solid 1px $blue;
+  background-color: #007bff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+}
 
 .modal-body {
   padding: 20px;
   // border-top: solid 1px black;
 }
 
-.modal-body-span{
-padding-bottom: 2%;
-// text-align: center;
+.modal-body-span {
+  padding-bottom: 2%;
+  // text-align: center;
 }
 
 .modal-footer {
@@ -189,7 +253,7 @@ padding-bottom: 2%;
 }
 
 .btn-primary {
-  background-color: #007bff;
+  background-color: $blue;
   color: #fff;
   border: none;
 }
@@ -199,7 +263,7 @@ padding-bottom: 2%;
 // }
 
 .custom-label {
-  display: inline-block;
+  display: flex;
   background-color: #f0f0f0;
   // padding: 10px;
   margin-top: 2%;
@@ -209,14 +273,10 @@ padding-bottom: 2%;
 }
 
 
-.inputfile{
-//  margin-top: 1%;
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-width: auto;
-}
+
+
+
+
 
 // .camera-icon {
 //   width: 100%;
@@ -228,9 +288,9 @@ width: auto;
 // }
 
 .icone-add {
-display: flex;
-align-items: center;
-justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 36px;
   height: 36px;
   vertical-align: middle;

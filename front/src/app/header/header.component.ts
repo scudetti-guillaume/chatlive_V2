@@ -37,6 +37,7 @@ openLoginModal(): void {
           localStorage.removeItem('pseudo');
           localStorage.removeItem('email');
           localStorage.removeItem('picture');
+          this.socket.emit('get-all-user');
           window.location.reload();
         }, 2000)
       }

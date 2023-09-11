@@ -6,19 +6,17 @@ const jwt = require('jsonwebtoken');
 exports.registerUser = async (data, callback) => {
     try {
         const { pseudo, email, password } = data;
-        console.log(data);
-
         const existingUser = await UserModel.findOne({ $or: [{ pseudo }, { email }] });
         if (existingUser) {
             return callback({ success: false, error: "pseudo déjà pris" });
         }
         const hashedPassword = await bcrypt.hash(password, 10);
-    
+
         const newUser = new UserModel({
             pseudo,
             email,
             password: hashedPassword,
-            pictureUser: `${process.env.BASE_IMAGE_DEFAULT}`
+            pictureUser: `${process.env.BASE_IMAGE_USER_DEFAULT}`
         });
         await newUser.save();
         callback({ success: true, message: 'Inscription réussie' });
@@ -31,12 +29,12 @@ exports.registerUser = async (data, callback) => {
 };
 
 
-exports.loginUser = async (data, callback) => {
+exports.loginUser = async (data, userConected, callback) => {
+    // console.log(data);
     try {
         const { pseudo, email, password } = data;
-        console.log(data);
+        // console.log(data);
         const user = await UserModel.findOne({ $and: [{ pseudo }, { email }] });
-        console.log(user);
         if (!user) {
             return callback({ success: false, error: 'Identifiants incorrects, veuillez les vérifiés' + pseudo });
         }
@@ -57,7 +55,7 @@ exports.loginUser = async (data, callback) => {
             token: token,
             pictureUser: user.pictureUser
         };
-        user.login = true;
+        user.login = userConected;
         await user.save();
 
         callback({ success: true, message: 'Connexion réussie', loginData });
@@ -69,10 +67,10 @@ exports.loginUser = async (data, callback) => {
 
 exports.logoutUser = async (data, callback) => {
     try {
-        const { id,pseudo } = data;
-        console.log(data);
-        const user = await UserModel.findByIdAndUpdate(data.userId,{login:false});
-        console.log(user);
+        const { id, pseudo } = data;
+        // console.log(data);
+        const user = await UserModel.findByIdAndUpdate(data.userId, { login: false });
+        // console.log(user);
         if (!user) {
             return callback({ success: false, error: 'Identifiants incorrects, veuillez les vérifiés' + pseudo });
         }
@@ -80,8 +78,8 @@ exports.logoutUser = async (data, callback) => {
             id: user._id,
             pseudo: user.pseudo,
         };
-        console.log(user);
-        user.login = false;
+        // console.log(user);
+        user.login = '';
         await user.save();
 
         callback({ success: true, message: 'Connexion réussie', logoutData });
@@ -98,10 +96,10 @@ exports.getAllUser = async (data, res) => {
         const userArray = []
         const users = await UserModel.find();
         users.forEach(user => {
-        const userPush = { _id: user._id, pseudo: user.pseudo, email: user.email, login: user.login, pictureUser:user.pictureUser}
+            const userPush = { _id: user._id, pseudo: user.pseudo, email: user.email, login: user.login, pictureUser: user.pictureUser }
             userArray.push(userPush);
         })
-        res({ success: true, userArray });
+       return res({ success: true, userArray });
     } catch (err) {
         console.log(err);
         return res({ success: false, error: "erreur veuillez réessayer" });
@@ -110,10 +108,10 @@ exports.getAllUser = async (data, res) => {
 
 
 exports.getUser = async (data, res) => {
-console.log(data);
+    // console.log(data);
     try {
         const user = await UserModel.findById(data);
-        res({ success: true, user});
+        res({ success: true, user });
     } catch (err) {
         console.log(err);
         return res({ success: false, error: "erreur veuillez réessayer" });
@@ -124,14 +122,14 @@ exports.registerPicture = async (data, res) => {
     console.log(data);
     try {
         const user = await UserModel.findByIdAndUpdate(data.user, {
-            pictureUser: data.name != null ? `${process.env.BASE_IMAGE_USER}/${data.name}` 
-                : `${process.env.BASE_IMAGE_USER_DEFAULT}`
-});
-        await MessageModel.updateMany({ userId : data.user }, {
             pictureUser: data.name != null ? `${process.env.BASE_IMAGE_USER}/${data.name}`
                 : `${process.env.BASE_IMAGE_USER_DEFAULT}`
-                })
-        res({ success: true,});
+        });
+        await MessageModel.updateMany({ userId: data.user }, {
+            pictureUser: data.name != null ? `${process.env.BASE_IMAGE_USER}/${data.name}`
+                : `${process.env.BASE_IMAGE_USER_DEFAULT}`
+        })
+        res({ success: true, });
     } catch (err) {
         console.log(err);
         return res({ success: false, error: "erreur veuillez réessayer" });

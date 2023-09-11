@@ -1,4 +1,3 @@
-require("./database.js");
 const express = require('express');
 const http = require('http');
 const socketIO = require('socket.io');
@@ -10,10 +9,11 @@ const jwt = require('jsonwebtoken');
 const util = require('util');
 const bodyParser = require('body-parser');
 const path = require("path");
-const multer = require('multer');
-const upload = multer({ dest: 'pictures' });
+// const multer = require('multer');
+// const upload = multer({ dest: 'pictures' });
 // require("dotenv").config({ path: ".envDev" });
 require("dotenv").config({ path: ".env" });
+require("./database.js");
 const messageRoute = require("./controllers/message.controller.js");
 const userRoute = require("./controllers/user.controller.js");
 const UserModel = require('./models/user.model.js');
@@ -22,7 +22,6 @@ const MessageModel = require('./models/message.model.js');
 const app = express();
 const server = http.createServer(app);
 
- 
 const io = socketIO(server, {
     // path: `${process.env.BASE_URL}`,
     cors: {
@@ -62,88 +61,90 @@ io.use((socket, next) => {
     const authHeader = socket.handshake.headers.authorization;
     if (authHeader) {
         const token = authHeader.split(' ')[1];
-
-        // Décodez le jeton JWT en utilisant votre secret JWT
         jwt.verify(token, `${process.env.ACCESS_TOKEN_SECRET}`, (err, decodedToken) => {
             if (err) {
-                return next(new Error('Invalid JWT token'));
+                return next();
             }
             socket.userData = {
                 jwtToken: decodedToken,
             };
-           
             return next();
         });
     } else {
-        return next(new Error('Socket connection requires authorization.'));
+        return next();
     }
 });
 
+const onlineUsers = {};
 
 io.on('connection', (socket) => {
+   
+    const userConected = socket.id;
+    onlineUsers[userConected] = true;
+    console.log(onlineUsers);
 
-    socket.on('upload', async ({ fileData ,user,type }, callback) => {
-    
-        // const detectedFileType = fileTypeModule(fileData);
-        if (!fileData) { callback('failure');
-            return;
-        }
-        const fileName = `./pictures/user/${user}.${type}`; 
-        const name = fileName.split('/')[3]// 
-        console.log(name);
-        fs.writeFile(fileName, fileData, (err) => {
-            if (err) {
-                console.error('Erreur lors de l\'enregistrement du fichier :', err);
-                callback('failure'); // En cas d'erreur lors de l'enregistrement
-            } else {
-                userRoute.registerPicture({user, fileName,name},(res)=>{
-                    if (res.success) {
-                        console.log('Fichier enregistré avec succès :', fileName);
-                        callback('success'); 
-                    } else {
-                    
-                    
-                    
-                    }
-                })
-              // Enregistrement réussi
-            };
-        }); // O});u 'failure' en cas d'erreur
-    });
-    
-    
-    const userId = socket.id; // Vous pouvez utiliser l'ID de socket comme identifiant d'utilisateur
-    socket.broadcast.emit('user-online', { userId });
-
-
-    socket.on('chat-message-send', async (fileData, callback) => {
-        console.log(socket.userData);
-    
-        if (!fileData) {
+    socket.on('upload', async ({ fileData, user, type }, callback) => {
+        const userRequest = user
+        const userToken = socket.userData.jwtToken.userId;
+        console.log(userRequest);
+        console.log(userToken);
+        if (userToken === userRequest) {
+            if (!fileData) {
+                callback('failure');
+                return;
+            }
+            const fileName = `./pictures/user/${user}.${type}`;
+            const name = fileName.split('/')[3]// 
+            console.log(name);
+            fs.writeFile(fileName, fileData, (err) => {
+                if (err) {
+                    console.error('Erreur lors de l\'enregistrement du fichier :', err);
+                    callback('failure');
+                } else {
+                    userRoute.registerPicture({ user, fileName, name }, (res) => {
+                        if (res.success) {
+                            console.log('Fichier enregistré avec succès :', fileName);
+                            callback('success');
+                        } else {
+                            callback('failure');
+                        }
+                    })
+                };
+            });
+        } else {
             callback('failure');
             return;
         }
-        const fileName = `./pictures/message/${fileData.pictureName}`;
-        fs.writeFile(fileName, fileData.pictureMessage, (err) => {
-            if (err) {
-                console.error('Erreur lors de l\'enregistrement du fichier :', err);
-                callback('failure'); // En cas d'erreur lors de l'enregistrement
-            } else {
-                messageRoute.registerMessage(fileData, (res) => {
-                    if (res.success) {
-                    // console.log(res);
-                    console.log(res);
-                        // console.log(`Message reçu : ${data.text} de ${data.pseudo}`);        
-                        io.emit('chat-message-resend', res.message);
-                    } else {
-                        io.emit('chat-message-resend', res);
-                    }
-                });
-            
+    });
+
+    socket.on('chat-message-send', async (fileData, status) => {
+        const userRequest = fileData.userId
+        const userToken = socket.userData.jwtToken.userId;
+        if (userToken === userRequest) {
+            if (!fileData) {
+                status('failure');
+                return;
             }
-        })
-    
-    }); 
+            const fileName = `./pictures/message/${fileData.pictureName}`;
+            fs.writeFile(fileName, fileData.pictureMessage, (err) => {
+                if (err) {
+                    console.error('Erreur lors de l\'enregistrement du fichier :', err);
+                    status('failure');
+                } else {
+                    messageRoute.registerMessage(fileData, (res) => {
+                        if (res.success) {
+                            io.emit('chat-message-resend', res.message);
+                        } else {
+                            io.emit('chat-message-resend', res);
+                        }
+                    });
+                }
+            })
+        } else {
+            status('failure');
+            return;
+        }
+    });
 
     socket.on('get-all-messages', async (data, callback) => {
         messageRoute.getAllMessages(data, (res) => {
@@ -160,8 +161,7 @@ io.on('connection', (socket) => {
             }
         })
     });
-    
-    
+
     socket.on('get-user', async (data, callback) => {
         userRoute.getUser(data, (res) => {
             if (res.success) {
@@ -186,15 +186,38 @@ io.on('connection', (socket) => {
         });
     });
 
+        socket.on('isconnected', (id , callback) => {
+            UserModel.findByIdAndUpdate(id, { login: userConected })
+                .then((doc) => {
+                    if (!doc) {
+                        // Aucun document trouvé avec cet ID
+                        console.log('Aucun document trouvé avec cet ID.');
+                    } else {
+                        // Mise à jour réussie
+                        console.log('Mise à jour réussie.');
+                    }
+                })
+                .catch((err) => {
+                    // Gérer les erreurs ici
+                    console.error('Erreur lors de la mise à jour :', err);
+                });
+        
+        })
+
+
 
     socket.on('login-user', async (data, callback) => {
-        userRoute.loginUser(data, (res) => {
+        onlineUsers[userConected] = true;
+        // console.log(onlineUsers);
+        userRoute.loginUser(data,userConected, (res) => {
             if (res.success === true) {
                 const dataUser = {
                     id: data.id,
                     pseudo: data.pseudo,
                     email: data.email,
                 }
+               
+                // socket.broadcast.emit('user-online', { userId });
                 io.emit('login-response', res, dataUser); // Vous devrez peut-être corriger ici
             }
             if (res.success === false) {
@@ -204,14 +227,16 @@ io.on('connection', (socket) => {
     })
 
     socket.on('logout-user', async (data, callback) => {
-        console.log(data);
+        // delete onlineUsers[userConected];
         userRoute.logoutUser(data, (res) => {
             if (res.success === true) {
-                console.log(`login de ${data.pseudo}`);
+                console.log(`logout de ${data.pseudo}`);
                 const dataUser = {
                     id: data.id,
                     pseudo: data.pseudo,
                 }
+             
+                // socket.broadcast.emit('user-offline', { userId });
                 io.emit('logout-response', res, dataUser); // Vous devrez peut-être corriger ici
             }
             if (res.success === false) {
@@ -219,14 +244,25 @@ io.on('connection', (socket) => {
             }
         });
     })
-
+    
     
 
-
-    socket.on('disconnect', () => {
-        socket.broadcast.emit('user-offline', { userId });
-    });
-
+    socket.on('disconnect', async () => {
+        await UserModel.findOneAndUpdate({ login: userConected }, { login: '' })
+            .then((doc) => {
+                if (!doc) {
+                    // Aucun utilisateur trouvé avec ce login
+                    console.log('Aucun utilisateur trouvé avec ce login.');
+                } else {
+                    delete onlineUsers[userConected];
+                    console.log('Mise à jour réussie.');
+                }
+            })
+            .catch((err) => {
+                // Gérer les erreurs ici
+                console.error('Erreur lors de la mise à jour :', err);
+            });
+    })
 
 });
 

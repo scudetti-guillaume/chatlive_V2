@@ -6,8 +6,8 @@
                 <img class="picture-img" [src]="message.pictureUser" alt="Photo de profil" width="25px" height="25px" />
                 <div class="pseudo" (click)="openPopup(message.userId)">{{ message.pseudo }}</div>
                 </div>
-                <div class="message">{{ message.text }}</div>
-                <div class="message">{{ message.pictureMessage }}</div>
+                <img *ngIf="message.pictureMessage != ''" class="image" alt="image" [src]="message.pictureMessage" />
+                <div *ngIf="message.text != ''" class="message">{{ message.text }}</div>
                 <div class="date">{{ message.date }}</div>
             </div>
         </ng-container>
@@ -26,7 +26,7 @@
 </div>
 
 <div class="input-container-main">
-<div class="inputfile">
+<div class="inputfile-chat">
     <label for="fileInput2" class="custom-label">
         <div class="inputfile-icone">
             <mat-icon *ngIf="!selectedFileName2" class="camera-icon icone-add">camera_alt</mat-icon>
@@ -38,18 +38,19 @@
         </div>
     </label>
     
-    <input id="fileInput2" type="file" accept="jpg,.jpeg,.png,.gif" style="display: none;"
+    <input id="fileInput2" class="input-text-message" type="file" accept="jpg,.jpeg,.png,.gif" style="display: none;"
         (change)="onFileSelected2($event)">
 </div>
 <div class="input-container">
     <input type="text" [(ngModel)]="newMessage" (keyup.enter)="sendMessage()"
     placeholder="Saisissez votre message..." />
-    <button (click)="sendMessage()">Envoyer</button>
+  
 </div>
 <!-- <input type="file" (change)="onFileSelected($event)" accept="image/*" id="fileInput"  /> -->
-
 </div>
-
+<div class="btn-send-wrapper">
+<button class="btn-send" (click)="sendMessage()">Envoyer</button>
+</div>
 <div class="modal-footer" *ngIf="selectedImage2" >
     <button type="button" class="btn btn-danger" (click)="deleteImage2()">Supprimer</button>
     <!-- <button type="button" class="btn btn-primary" (click)="sendMessage()">Envoyer</button> -->
@@ -60,6 +61,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+            <img class="picture-img-modal" [src]="pictureUser" alt="Photo de profil" width="30px" height="30px" />
                 <h4 class="modal-title">{{userProfileData.pseudo}}</h4>
             </div>
             <div class="modal-body">
@@ -69,7 +71,7 @@
                     <label for="fileInput" class="custom-label">
                         <div class="inputfile">
                             <mat-icon class="camera-icon">camera_alt</mat-icon>
-                            <span *ngIf="!selectedFileName2">Votre fichier</span>
+                            <span *ngIf="!selectedFileName">Votre fichier</span>
                             <span *ngIf="selectedFileName">{{ selectedFileName }}</span>
                         </div>
                     </label>
