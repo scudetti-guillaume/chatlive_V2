@@ -333,10 +333,10 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
               readNextChunk();
             }else{
               this.showMessagePreview = false
-              // this.newMessage = '';
-              // this.selectedFileName2 = null;
-              // this.selectedImage2 = null;
-              setTimeout(() => { this.selectedFile2 = null }, 5000);
+              this.newMessage = '';
+              this.selectedFileName2 = null;
+              this.selectedImage2 = null;
+              setTimeout(() => { this.selectedFile2 = null }, 500);
             }
           });
         };
