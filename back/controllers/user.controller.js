@@ -2,6 +2,7 @@ const UserModel = require('../models/user.model.js');
 const MessageModel = require('../models/message.model.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const path = require("path");
 
 exports.registerUser = async (data, callback) => {
     try {
@@ -99,7 +100,7 @@ exports.getAllUser = async (data, res) => {
             const userPush = { _id: user._id, pseudo: user.pseudo, email: user.email, login: user.login, pictureUser: user.pictureUser }
             userArray.push(userPush);
         })
-       return res({ success: true, userArray });
+        return res({ success: true, userArray });
     } catch (err) {
         console.log(err);
         return res({ success: false, error: "erreur veuillez réessayer" });
@@ -120,13 +121,16 @@ exports.getUser = async (data, res) => {
 
 exports.registerPicture = async (data, res) => {
     console.log(data);
+    // const name = data.fileName.split('/')[3];
+    const name = path.basename(data.fileName)
+    console.log(name);
     try {
-        const user = await UserModel.findByIdAndUpdate(data.user, {
-            pictureUser: data.name != null ? `${process.env.BASE_IMAGE_USER}/${data.name}`
+        await UserModel.findByIdAndUpdate(data.user, {
+            pictureUser: data.fileName != null ? `${process.env.BASE_IMAGE_USER}/${name}`
                 : `${process.env.BASE_IMAGE_USER_DEFAULT}`
         });
         await MessageModel.updateMany({ userId: data.user }, {
-            pictureUser: data.name != null ? `${process.env.BASE_IMAGE_USER}/${data.name}`
+            pictureUser: data.fileName != null ? `${process.env.BASE_IMAGE_USER}/${name}`
                 : `${process.env.BASE_IMAGE_USER_DEFAULT}`
         })
         res({ success: true, });

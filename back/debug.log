@@ -1,1 +1,2 @@
-LOG:  connected 5000   
+LOG:  Serveur en cours d'écoute sur http://:::57275   
+LOG:  Connexion à MongoDB réussie !   

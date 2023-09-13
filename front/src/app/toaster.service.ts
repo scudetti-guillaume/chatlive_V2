@@ -1,13 +1,13 @@
 // toast.service.ts
-import { Injectable } from '@angular/core';
-import { ToastrService, IndividualConfig } from 'ngx-toastr';
+import { Injectable, ComponentRef } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToasterService {
 
-  constructor(private toastr: ToastrService) { }
+  constructor(private toastr: ToastrService,) { }
 
   showSuccess(message: string, title: string) {
     const successOptions: any = {
@@ -27,7 +27,9 @@ export class ToasterService {
     };
     this.toastr.success(title, message, successOptions);
   }
-
+  
+  
+  
   showError(message: string, title: string) {
     const errorOptions: any = {
       timeOut: 3000,
@@ -47,4 +49,19 @@ export class ToasterService {
 
     this.toastr.error(title, '', errorOptions);
   }
+
+
 }
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

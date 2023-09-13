@@ -22,18 +22,27 @@ import { ToasterService } from './toaster.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { UserModalComponent } from './user-modal/user-modal.component';
 
+
 const jwtToken = localStorage.getItem('token');
 
 const customSocketConfig: SocketIoConfig = {
-  // url: 'https://www.lesiteduscudo.com',
-   url: 'http://localhost:5000',
+  url: 'https://www.lesiteduscudo.com',
   options: {
-    // path: "/chatsocV2/backend",
+    path: "/chatsocV2/backend",
     extraHeaders: {
       Authorization: `Bearer ${jwtToken}`
     }
   }
 };
+
+// const customSocketConfig: SocketIoConfig = {
+//    url: 'http://localhost:5000',
+//   options: {
+//     extraHeaders: {
+//       Authorization: `Bearer ${jwtToken}`
+//     }
+//   }
+// };
 
 @NgModule({
   declarations: [

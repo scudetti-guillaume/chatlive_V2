@@ -30,8 +30,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
-  console.log('lalalalalalalalalalalala');
-  
+
     // const userId = localStorage.getItem('id');
     const loginData = {
       // id: userId,

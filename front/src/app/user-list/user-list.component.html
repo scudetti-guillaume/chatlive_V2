@@ -15,7 +15,7 @@
         <ul class="user-list-ul-offline">
             <li *ngFor="let user of userOffline">
                 <span class="status-badge" [ngClass]="{ 'offline': !user.isOnline }"></span>
-                <img class="picture-img" [src]="user.pictureUser" alt="Photo de profil" width="20px" height="20px" />
+                <img class="li-picture-user" [src]="user.pictureUser" alt="Photo de profil" width="20px" height="20px" />
                <span class="li-pseudo-user">{{ user.pseudo }}</span>
             </li>
         </ul>

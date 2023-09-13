@@ -33,6 +33,12 @@ test(){
       this.socket.emit('get-all-user')
     }
      this.test()
+     
+     this.socket.on('login-false', (data: any) => {
+
+       localStorage.removeItem('token');})
+      
+     
   }
   
  

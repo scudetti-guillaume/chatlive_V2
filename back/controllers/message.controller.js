@@ -1,24 +1,26 @@
 const MessageModel = require("../models/message.model");
+const path = require("path");
 
-
-exports.registerMessage = async (data, res) => {
+exports.registerMessage = async (data, filename, res) => {
   try {
-    console.log(data);
+    // console.log(data);
+    console.log(filename);
     const { text, pseudo, userId, date, pictureUser, pictureName } = data;
     if (pseudo === null || userId === null) return res({ success: false, error: "erreur veuillez réessayer" });
-    const uniqueFileName = `${Date.now()}_${pictureName}`;
+    // const uniqueFileName = `${Date.now()}_${pictureName}`;
     const messageNew = new MessageModel({
       text: text,
       pseudo: pseudo,
       userId: userId,
       date: date,
       pictureUser: pictureUser,
-      pictureMessage: pictureName != null ? `${process.env.BASE_IMAGE_MESSAGE}/${uniqueFileName}`
+      pictureMessage: data.pictureName != '' || null ? `${process.env.BASE_IMAGE_MESSAGE}/${filename}`
         : ``,
     });
 
 
     await messageNew.save()
+    console.log(messageNew)
     res({ success: true, message: messageNew });
   } catch (err) {
     console.log(err);
