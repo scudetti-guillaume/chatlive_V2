@@ -1,2 +1,367 @@
-LOG:  Serveur en cours d'écoute sur http://:::57275   
+LOG:  Le serveur écoute sur http://:::5000   
+LOG:  Le serveur écoute sur http://:::5000   
+LOG:  { 'KFYSSpMRqktj-i5LAAAB': true }   
 LOG:  Connexion à MongoDB réussie !   
+LOG:  Aucun utilisateur trouvé avec ce login.   
+LOG:  { 'KFYSSpMRqktj-i5LAAAB': true, 'NttPK9E-Wsdliz4KAAAD': true }   
+LOG:  Mise à jour réussie.   
+LOG:  6556022c7b8c2abaf253c403   
+LOG:  6556022c7b8c2abaf253c403   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  6556022c7b8c2abaf253c403   
+LOG:  6556022c7b8c2abaf253c403   
+LOG:  { acknowledged: true, deletedCount: 0 }   
+LOG:  { success: false, error: 'erreur veuillez réessayer' }   
+LOG:  erreur veuillez réessayer   
+LOG:  6556022c7b8c2abaf253c403   
+LOG:  6556022c7b8c2abaf253c403   
+LOG:  { acknowledged: true, deletedCount: 0 }   
+LOG:  { success: false, error: 'erreur veuillez réessayer' }   
+LOG:  erreur veuillez réessayer   
+LOG:  6556022b7b8c2abaf253c400   
+LOG:  6556022b7b8c2abaf253c400   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  6556022b7b8c2abaf253c400   
+LOG:  6556022b7b8c2abaf253c400   
+LOG:  { acknowledged: true, deletedCount: 0 }   
+LOG:  { success: false, error: 'erreur veuillez réessayer' }   
+LOG:  erreur veuillez réessayer   
+LOG:  Mise à jour réussie.   
+LOG:  { 'KFYSSpMRqktj-i5LAAAB': true, D8cgHh_jr7PcK3SjAAAF: true }   
+LOG:  Mise à jour réussie.   
+LOG:  Mise à jour réussie.   
+LOG:  { 'KFYSSpMRqktj-i5LAAAB': true, '4JXu9TjMoJ-B_ACkAAAH': true }   
+LOG:  Mise à jour réussie.   
+LOG:  Mise à jour réussie.   
+LOG:  { 'KFYSSpMRqktj-i5LAAAB': true, PwD3m9fkZ0wVMz8yAAAJ: true }   
+LOG:  Mise à jour réussie.   
+LOG:  6556022a7b8c2abaf253c3fd   
+LOG:  6556022a7b8c2abaf253c3fd   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655602297b8c2abaf253c3fa   
+LOG:  655602297b8c2abaf253c3fa   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655602287b8c2abaf253c3f7   
+LOG:  655602287b8c2abaf253c3f7   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655602267b8c2abaf253c3f4   
+LOG:  655602267b8c2abaf253c3f4   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:13',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136433360_   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:13',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f17f5d91b98529e18c"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:15',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136435563_   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:15',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f37f5d91b98529e190"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:16',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136436710_   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:16',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f47f5d91b98529e193"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:17',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136437788_   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:17',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f57f5d91b98529e196"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:19',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136439291_   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:19',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f77f5d91b98529e199"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:20',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136440376_   
+LOG:  {
+  text: 'test',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:20',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f87f5d91b98529e19c"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'sqdfsdfq',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:21',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136441736_   
+LOG:  {
+  text: 'sqdfsdfq',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:21',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605f97f5d91b98529e19f"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'dsfsd',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:22',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136442176_   
+LOG:  {
+  text: 'dsfsd',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:22',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605fa7f5d91b98529e1a2"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'f',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:22',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136442596_   
+LOG:  {
+  text: 'f',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:22',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605fa7f5d91b98529e1a5"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  {
+  text: 'sdf',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:22',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  pictureName: '',
+  formatImage: '',
+  _id: ''
+}   
+LOG:  1700136442925_   
+LOG:  {
+  text: 'sdf',
+  pseudo: 'scud',
+  userId: '6501ca9703eabdd08e4f808d',
+  date: '16 Nov 2023 13:07:22',
+  pictureUser: 'pictures/user/6501ca9703eabdd08e4f808d.png',
+  pictureMessage: '',
+  _id: new ObjectId("655605fa7f5d91b98529e1a8"),
+  __v: 0
+}   
+LOG:  savedok   
+LOG:  655605fa7f5d91b98529e1a8   
+LOG:  655605fa7f5d91b98529e1a8   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605fa7f5d91b98529e1a5   
+LOG:  655605fa7f5d91b98529e1a5   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605fa7f5d91b98529e1a2   
+LOG:  655605fa7f5d91b98529e1a2   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f97f5d91b98529e19f   
+LOG:  655605f97f5d91b98529e19f   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f87f5d91b98529e19c   
+LOG:  655605f87f5d91b98529e19c   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f77f5d91b98529e199   
+LOG:  655605f77f5d91b98529e199   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f57f5d91b98529e196   
+LOG:  655605f57f5d91b98529e196   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f47f5d91b98529e193   
+LOG:  655605f47f5d91b98529e193   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f37f5d91b98529e190   
+LOG:  655605f37f5d91b98529e190   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  655605f17f5d91b98529e18c   
+LOG:  655605f17f5d91b98529e18c   
+LOG:  { acknowledged: true, deletedCount: 1 }   
+LOG:  { success: true }   
+LOG:  Mise à jour réussie.   
+LOG:  { 'KFYSSpMRqktj-i5LAAAB': true, VU6afSl6mx1CwlyjAAAL: true }   
+LOG:  Aucun utilisateur trouvé avec ce login.   
+LOG:  {
+  'KFYSSpMRqktj-i5LAAAB': true,
+  VU6afSl6mx1CwlyjAAAL: true,
+  'dEE-UoLiBcIYaFGoAAAN': true
+}   
+LOG:  Mise à jour réussie.   
+LOG:  Aucun utilisateur trouvé avec ce login.   
+LOG:  {
+  'KFYSSpMRqktj-i5LAAAB': true,
+  VU6afSl6mx1CwlyjAAAL: true,
+  'dEE-UoLiBcIYaFGoAAAN': true,
+  OY8PIg7YXFcFEy6kAAAP: true
+}   
+LOG:  Mise à jour réussie.   
+LOG:  Mise à jour réussie.   
+LOG:  {
+  'KFYSSpMRqktj-i5LAAAB': true,
+  VU6afSl6mx1CwlyjAAAL: true,
+  'dEE-UoLiBcIYaFGoAAAN': true,
+  '-yEeZexv0bXAQRvtAAAR': true
+}   
+LOG:  Mise à jour réussie.   
+LOG:  Received chunk for user 6501ca9703eabdd08e4f808d   
+LOG:  Received chunk for user 6501ca9703eabdd08e4f808d   
+LOG:  {
+  user: '6501ca9703eabdd08e4f808d',
+  fileName: './pictures/user/6501ca9703eabdd08e4f808d.jpeg'
+}   
+LOG:  6501ca9703eabdd08e4f808d.jpeg   
+LOG:  Fichier enregistré avec succès : ./pictures/user/6501ca9703eabdd08e4f808d.jpeg  
+LOG:  Mise à jour réussie.   
+LOG:  {
+  'KFYSSpMRqktj-i5LAAAB': true,
+  VU6afSl6mx1CwlyjAAAL: true,
+  'dEE-UoLiBcIYaFGoAAAN': true,
+  'WOLHvmTmVRZb-qhxAAAT': true
+}   
+LOG:  Mise à jour réussie.   
+LOG:  Mise à jour réussie.   

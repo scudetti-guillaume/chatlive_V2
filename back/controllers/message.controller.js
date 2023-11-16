@@ -1,3 +1,4 @@
+const { log } = require("console");
 const MessageModel = require("../models/message.model");
 const path = require("path");
 
@@ -39,5 +40,23 @@ exports.getAllMessages = async (data, res) => {
   } catch (err) {
     console.log(err);
     return res({ success: false, error: "erreur veuillez réessayer" });
+  }
+}
+
+exports.deleteMessage = async (data, res) => {
+  console.log(data);
+  try {
+    const messages = await MessageModel.deleteOne({ _id: data });
+    console.log(messages);
+    if (messages.deletedCount == 0)  {
+    res({ success: false, error: "erreur veuillez réessayer" })
+    console.log("erreur veuillez réessayer");
+    }else{
+      res({ success: true });
+    }
+  } catch (err) {
+    console.log(err);
+    return res({ success: false, error: "erreur veuillez réessayer" });
+
   }
 }

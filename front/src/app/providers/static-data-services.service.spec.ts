@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { beforeEach, describe, expect, it, test } from '@jest/globals';
-import { ToasterService } from './toaster.service';
+import { StaticDataService } from '../providers/static-data-services.service';
 
-describe('ToasterService', () => {
+describe('StaticDataServicesService', () => {
   let service;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ToasterService);
+    service = TestBed.inject(StaticDataService);
   });
 
   it('should be created', () => {

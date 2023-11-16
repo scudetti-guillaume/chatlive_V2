@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { beforeEach, describe, expect, it, test } from '@jest/globals';
 import { ChatFormComponent } from './chat-form.component';
 
 describe('ChatFormComponent', () => {
-  let component: ChatFormComponent;
-  let fixture: ComponentFixture<ChatFormComponent>;
+  let component;
+  let fixture;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

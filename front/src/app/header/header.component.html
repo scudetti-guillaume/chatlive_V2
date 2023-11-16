@@ -1,9 +1,10 @@
 <div class="toolbar">
     <img src="assets/waifu.jpg" height="30px" />
-    <span class="title">ChatDirect</span>
+    <span class="title">{{this.title}}</span>
+    <!-- <span class="title">{{this.title}}</span>  -->
     <span class="spacer"></span>
     <div class="btn-wrapper">
-    <button class="btn-login" mat-button (click)="openLoginModal()">Login</button>
-    <button class="btn-logout"  mat-button (click)="logout()">logout</button>
+        <button class="btn-login" mat-button (click)="openLoginModal()">{{this.loginBtnLabel}}</button>
+        <button class="btn-logout" mat-button (click)="logout()">{{this.logoutBtnLabel}}</button>
     </div>
 </div>

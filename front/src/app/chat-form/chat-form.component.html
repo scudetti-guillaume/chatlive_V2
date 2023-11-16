@@ -21,7 +21,7 @@
                 </div>
                 <img *ngIf="message.pictureMessage != ''" class="image" alt="image" [src]="message.pictureMessage" />
                 <div *ngIf="message.text != ''" class="message">{{ message.text }}</div>
-                <div class="date">{{ message.date }}</div>
+                <div class="wrapper-manage"> <button class="delete" (click)="deleteMessage(message.messageId)">SUPPRIMER</button><div  class="date">{{ message.date }}</div></div>
             </div>
         </ng-template>
     </div>

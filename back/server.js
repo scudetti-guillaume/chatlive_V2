@@ -23,7 +23,7 @@ const app = express();
 const server = http.createServer(app);
 
 const io = socketIO(server, {
-    path: `${process.env.BASE_URL}`,
+    // path: `${process.env.BASE_URL}`,
     cors: {
         origin: '*',
         methods: ["GET", "POST"],
@@ -175,7 +175,7 @@ io.on('connection', (socket) => {
                             if (res.success) {
                                 io.emit('chat-message-resend', res.message);
                             } else {
-                                io.emit('chat-message-resend', res);
+                                io.emit('chat-message-resend', res.message);
                             }
                         });
 
@@ -185,11 +185,8 @@ io.on('connection', (socket) => {
             } else {
                 status('received_chunk');
             }
-          
-
             
         } else {
-        console.log('lalalaa');
             status('failure');
         }
         
@@ -253,7 +250,16 @@ io.on('connection', (socket) => {
 
     })
 
-
+    socket.on('delete-message', async (id, callback) => {
+     console.log(id);
+     messageRoute.deleteMessage(id, (res) => {
+         if (res) {
+         console.log(res);
+             callback({ res: res });
+         }
+     });
+    
+    });
 
     socket.on('login-user', async (data, callback) => {
         onlineUsers[userConected] = true;
@@ -315,23 +321,23 @@ io.on('connection', (socket) => {
 
 });
 
-;
+// ;
 
-server.listen(() => {
-    const address = server.address();
-    const host = address.address;
-    const port = address.port;
-    console.log(`Serveur en cours d'écoute sur http://${host}:${port}`);
-});
-
-
-// server.listen(process.env.PORT, () => {
+// server.listen(() => {
 //     const address = server.address();
-//         const host = address.address;
-//         const port = address.port;
-//     console.log(`Le serveur écoute sur http://${address.address}:${address.port}`);
-//     console.log(`Le serveur écoute sur http://${host}:${port}`);
+//     const host = address.address;
+//     const port = address.port;
+//     console.log(`Serveur en cours d'écoute sur http://${host}:${port}`);
 // });
+
+
+server.listen(process.env.PORT, () => {
+    const address = server.address();
+        const host = address.address;
+        const port = address.port;
+    console.log(`Le serveur écoute sur http://${address.address}:${address.port}`);
+    console.log(`Le serveur écoute sur http://${host}:${port}`);
+});
 
 const log_file = fs.createWriteStream(__dirname + '/debug.log', { flags: 'w' });
 const log_stdout = process.stdout;

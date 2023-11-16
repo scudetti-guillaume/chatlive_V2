@@ -17,6 +17,7 @@ interface ChatMessage {
   pictureMessage: string | File | Blob | ArrayBuffer;
   pictureName: string;
   isLastChunk?: boolean;
+  _id: string;
 }
 
 @Component({
@@ -35,7 +36,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
   userId = localStorage.getItem('id');
   token = localStorage.getItem('token');
   pictureUser = localStorage.getItem('picture');
-  messages: { pictureMessage: string | File | Blob | ArrayBuffer, pictureUser: string, userId: string, date: string, pseudo: string, text: string; type: 'incoming' | 'outgoing' }[] = [];
+  messages: { pictureMessage: string | File | Blob | ArrayBuffer, pictureUser: string, userId: string, date: string, pseudo: string, text: string; type: 'incoming' | 'outgoing', messageId: string }[] = [];
   newMessage: string = '';
   displayStyle = "none";
   displayStyleUser = "none";
@@ -190,7 +191,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else if (this.isYesterday(messageDate, currentDate)) {
       return `Hier à ${this.datePipe.transform(messageDate, 'HH:mm:ss')}`;
     } else {
-      return `Le ${this.datePipe.transform(messageDate, 'dd MMM yyyy HH:mm:ss')} || '';`
+      return `Le ${this.datePipe.transform(messageDate, 'dd MMM yyyy HH:mm:ss')}`
     }
   }
 
@@ -232,9 +233,9 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.toaster.showError('', 'Veuillez vous identifier pour envoyer un message');
       }
       if (message.userId === this.userId) {
-        this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'outgoing' });
+        this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'outgoing', messageId: message._id });
       } else {
-        this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'incoming' });
+        this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'incoming', messageId: message._id });
       }
     });
     this.socket.emit('get-all-message');
@@ -242,15 +243,16 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.socket.on('chat-message-resend-all', (messageAll: any) => {
       this.messages = [];
       messageAll.messagesArray.forEach((message: {
+        _id: string;
         pictureMessage: Blob | null | ArrayBuffer | string;
-        pictureUser: string, userId: string, date: string; pseudo: any; text: any;
+        pictureUser: string, userId: string, date: string; pseudo: any; text: any; messageId: string;
 
       }) => {
 
         if (message.userId === this.userId) {
-          this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'outgoing' });
+          this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'outgoing', messageId: message._id });
         } else {
-          this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'incoming' });
+          this.messages.push({ pictureMessage: message.pictureMessage, pictureUser: message.pictureUser, userId: message.userId, date: this.formatDate(message.date), pseudo: message.pseudo, text: message.text, type: 'incoming', messageId: message._id });
         }
       });
     });
@@ -278,11 +280,12 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
       text: this.newMessage,
       pseudo: this.pseudo || '',
       userId: this.userId || '',
-      date: this.datePipe.transform(new Date(), 'dd MMM yyyy HH:mm:ss') || '',
+      date: this.datePipe.transform(new Date(), 'dd MMM yyyy HH:mm:ss'),
       pictureUser: this.pictureUser || '',
       pictureMessage: '', // Laissez ceci vide pour le moment
       pictureName: '',    // Laissez ceci vide pour le moment
       formatImage: '',
+      _id: ''
     };
 
     if (messageData.userId === '' && messageData.pseudo === '') {
@@ -292,11 +295,12 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     if (this.newMessage.trim() !== '' && this.selectedImage2 === null) {
       this.socket.emit('get-all-user');
-      this.socket.emit('chat-message-send', messageData,(status: any) => {
-      if (status === 'failure') {
-        this.toaster.showError('', "Échec de l'envoi du message. Veuillez réessayer.");
-      }
       
+      this.socket.emit('chat-message-send', messageData, (status: any) => {
+        if (status === 'failure') {
+          this.toaster.showError('', "Échec de l'envoi du message. Veuillez réessayer.");
+        }
+
       });;
     }
 
@@ -306,7 +310,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
         const totalChunks = Math.ceil(this.selectedFile2.size / CHUNK_SIZE);
         let currentChunk = 0;
         console.log(this.selectedFile2.name);
-        
+
 
         const reader = new FileReader();
         reader.onload = () => {
@@ -319,7 +323,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
           messageData.pictureName = this.selectedFile2.name;
           messageData.isLastChunk = isLastChunk; // Ajoutez l'indicateur isLastChunk ici
           console.log(messageData.pictureName);
-           
+
           this.socket.emit('chat-message-send', messageData, (status: any) => {
             console.log(status);
 
@@ -331,7 +335,7 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
               this.showMessagePreview = true
               currentChunk++;
               readNextChunk();
-            }else{
+            } else {
               this.showMessagePreview = false
               this.newMessage = '';
               this.selectedFileName2 = null;
@@ -358,68 +362,25 @@ export class ChatFormComponent implements OnInit, OnDestroy, AfterViewChecked {
     // setTimeout(() => { this.selectedFile2 = null }, 5000);
   }
 
+  deleteMessage(id: string) {
+    this.socket.emit('delete-message', id, (response) => {
+      console.log(response.res.success);
+      if (response.res.success === true) {
+        console.log('La suppression a réussi.');
 
-
-
-
-  // sendMessage() {
-  //   const messageData: ChatMessage = {
-  //     text: this.newMessage,
-  //     pseudo: this.pseudo || '',
-  //     userId: this.userId || '',
-  //     date: this.datePipe.transform(new Date(), 'dd MMM yyyy HH:mm:ss') || '',
-  //     pictureUser: this.pictureUser || '',
-  //     pictureMessage: '', 
-  //     pictureName: '' || null,
-  //     formatImage: ''
-  //   };
-
-  //   if (messageData.userId === '' && messageData.pseudo === '') {
-  //     this.toaster.showError('', 'Veuillez vous identifier pour envoyer un message');
-  //   }
-
-  //   if (this.newMessage.trim() !== '' && this.selectedImage2 === null) {
-  //     this.socket.emit('get-all-user')
-  //     this.socket.emit('chat-message-send', messageData);
-  //     // this.socket.emit('get-all-message');
-  //   }
-
-  //   if (this.selectedFile2 != null) {
-  //     if (this.selectedFile2 instanceof File) {
-  //       const reader = new FileReader();
-  //       reader.onload = (event) => {
-  //         if (event.target) {
-  //           const imageFile = new File([event.target.result], this.selectedFileName2);
-  //           console.log(event.target);
-  //           messageData.pictureMessage = imageFile;
-  //           const fileName = this.selectedFile2.name;
-  //           const sanitizedFileName = fileName.replace(/\s/g, '').toLowerCase();
-  //           this.selectedFileName2 = sanitizedFileName
-  //           messageData.pictureName = this.selectedFileName2;
-  //           // this.socket.emit('get-all-user')
-  //           this.socket.emit('chat-message-send', messageData, (status : any) => {
-  //           console.log(status);
-  //           if (status === 'failure') {
-  //             this.toaster.showError('', "Échec de l'envoi du message. Veuillez réessayer.");
-  //           }
-  //           });
-
-  //           // Réinitialisez les valeurs après l'envoi
-  //           this.newMessage = '';
-  //           this.selectedFileName2 = null;
-  //           this.selectedImage2 = null;
-  //           // this.selectedFile2 = null; // Réinitialisation de this.selectedFile2
-  //         }
-  //       };
-  //       reader.readAsArrayBuffer(this.selectedFile2);
-  //     }
-  //   }
-
-  //   this.newMessage = '';
-  //   this.selectedFileName2 = null;
-  //   this.selectedImage2 = null;
-  //   setTimeout(() => { this.selectedFile2 = null }, 1000);
-  // }
+        // Supprimer le message du tableau local
+        const index = this.messages.findIndex(message => message.messageId === id);
+        if (index !== -1) {
+          this.messages.splice(index, 1);
+        } else {
+          console.error('Message introuvable dans le tableau local.');
+        }
+      } else {
+        this.toaster.showError('', "La suppression a échoué.");
+        console.log('La suppression a échoué.');
+      }
+    });
+  }
 
   resetFile() {
     this.selectedFile2 = null
